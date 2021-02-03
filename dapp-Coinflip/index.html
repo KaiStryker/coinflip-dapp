@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Coin Flip</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./web3.min.js"></script>
+    <script type="text/javascript" src="./abi.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">Coin Flip</h1>
+        <p class="lead">Take a chance!
+        <br> Minimum bet 0.1 ether!
+      </p>
+
+      </div>
+    </div>
+    <div class="container">
+      <div>
+        <h2>Place Your Bet</h2>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" id="HeadTails_input" placeholder="Heads or Tails" >
+        </div>
+        <div class="input-group mb-3">
+          <input type="number" class="form-control" id="betAmount_input" placeholder="Betting Amount">
+        </div>
+        <button type="button" id="add_bet_button" class="btn btn-primary">Place Bet</button>
+        <br>
+      </div>
+      <div>
+        <h2>Results <br> </h2>
+        <div>
+         <span id="get_results_output"></span>
+        </div>
+      </div>
+      <br>
+      <button type="button" id="get_reward_button" class="btn btn-primary">Claim</button>
+    </div>
+
+    </div>
+
+
+  </body>
+</html>
