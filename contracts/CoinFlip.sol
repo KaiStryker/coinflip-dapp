@@ -76,7 +76,7 @@ function placeBet(uint guess) public payable RequiredtoBet returns (bool){
 
     uint _balance = 2 * msg.value;
 
-    require (address(this).balance >= _balance);
+    require (address(this).balance >= _balance, "Balance not sufficient");
 
     if (guess == block.timestamp%2){
 
