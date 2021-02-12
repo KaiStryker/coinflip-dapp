@@ -32,6 +32,7 @@ struct Pending{
 constructor() public payable {
     require (msg.value == .1 ether, "deployment minimum not achieved");
     owner = msg.sender;
+    balance[address(this)];
     }
 
 modifier onlyOwner {
@@ -73,6 +74,7 @@ function changeOwner(address newOwner) public onlyOwner returns (address){
     }
 
 function withdrawAll() public onlyOwner returns (uint){
+    require(address(this).balance == balance[address(this)]);
 
     msg.sender.transfer(address(this).balance);
     return address(this).balance;
@@ -114,7 +116,6 @@ function placeBet(uint guess) public payable RequiredtoBet returns (bool){
     newBet.value = msg.value;
     newBet.currentgame = Id;
     newBet.waiting = true;
-
     players[msg.sender] = newBet;
 
     }
@@ -129,27 +130,32 @@ function __callback(bytes32 _queryId, string memory _result) public{
       latestNumber = randomNumber;
       _player.waiting = false;
 
-     if (_bet.guess == latestNumber) {
+     if(_bet.guess == latestNumber){
 
       balance[_bet.player] += (_bet.value *2);
+      balance[address(this)]-=(_bet.value*2);
+
       emit Results(_bet.player,latestNumber,"You win!");
      }
 
      else if(_bet.guess != latestNumber && balance[_bet.player] != 0){
 
       balance[_bet.player] -= _bet.value;
+      balance[address(this)]+=(_bet.value);
+
       emit Results(_bet.player,latestNumber,"Sorry Try Again!");
      }
 
      else{
 
+      balance[address(this)]+=(_bet.value);
       emit Results(_bet.player,latestNumber,"Sorry Try Again!");
      }
 
       delete (playing[_queryId]);
     }
 
-function update() public returns (bytes32){
+function update() internal returns (bytes32){
 
       uint256 QUERY_EXECUTION_DELAY = 0;
       uint256 GAS_FOR_CALLBACK = 200000;
