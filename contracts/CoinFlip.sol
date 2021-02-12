@@ -81,6 +81,8 @@ function withdrawAll() public onlyOwner returns (uint){
     msg.sender.transfer(oldBalance);
 
     balance[address(this)] -= oldBalance;
+
+    assert(balance[address(this)] == address(this).balance);
     return address(this).balance;
     }
 
