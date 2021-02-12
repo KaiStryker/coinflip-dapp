@@ -7,17 +7,14 @@ address public owner;
 mapping(address => uint) balance;
 
 uint256 constant NUM_RANDOM_BYTES_REQUESTED = 1;
-uint256 public latestNumber;
+uint256 private latestNumber;
 
 mapping(address => Bet) players;
-mapping(bytes32 => mapping(address => uint256))results;
 mapping(bytes32 => Pending) playing;
 
 event LogNewProvableQuery(string description);
-event generatedRandomNumber(bytes32 Id, uint256 randomNumber, bytes proof);
-
 event DepositSent(address from, address to, uint amount);
-event Results(address player, string _results);
+event Results(address player, uint256 result, string _results);
 
 struct Bet {
   address player;
@@ -29,10 +26,11 @@ struct Bet {
 struct Pending{
   address player;
   uint value;
+  uint guess;
 }
 
 constructor() public payable {
-    require (msg.value == 1 ether, "deployment minimum not achieved");
+    require (msg.value == .1 ether, "deployment minimum not achieved");
     owner = msg.sender;
     }
 
@@ -44,7 +42,7 @@ modifier onlyOwner {
 
 modifier RequiredtoBet {
 
-    require(msg.value >= 0.1 ether, "Minimum bet not placed");
+    require(msg.value >= 0.01 ether, "Minimum bet not placed");
      _;
     }
 
@@ -108,6 +106,7 @@ function placeBet(uint guess) public payable RequiredtoBet returns (bool){
     Pending memory newPending;
     newPending.player = msg.sender;
     newPending.value = msg.value;
+    newPending.guess = guess;
     playing[Id] = newPending;
 
     Bet memory newBet;
@@ -118,31 +117,9 @@ function placeBet(uint guess) public payable RequiredtoBet returns (bool){
 
     players[msg.sender] = newBet;
 
-    uint _results = results[Id][msg.sender];
-
-    if (guess == _results){
-
-      balance[msg.sender] += _balance;
-      emit Results(msg.sender,"You win!");
-
-      return true;
-      }
-
-  else if(guess != _results && balance[msg.sender] != 0){
-
-      balance[msg.sender] -= _balance;
-      emit Results(msg.sender,"Sorry Try Again!");
-
-      return false;
-      }
-
-    else
-
-      emit Results(msg.sender,"Sorry Try Again!");
-      return false;
     }
 
-function __callback(bytes32 _queryId, string memory _result, bytes memory _proof) public{
+function __callback(bytes32 _queryId, string memory _result) public{
       require(msg.sender == provable_cbAddress());
 
       Pending memory _bet = playing[_queryId];
@@ -150,12 +127,29 @@ function __callback(bytes32 _queryId, string memory _result, bytes memory _proof
 
       uint256 randomNumber = uint256(keccak256(abi.encodePacked(_result))) % 2;
       latestNumber = randomNumber;
-      results[_queryId][_bet.player] = latestNumber;
-     _player.waiting = false;
-      emit generatedRandomNumber(_queryId, randomNumber, _proof);
+      _player.waiting = false;
+
+     if (_bet.guess == latestNumber) {
+
+      balance[_bet.player] += (_bet.value *2);
+      emit Results(_bet.player,latestNumber,"You win!");
+     }
+
+     else if(_bet.guess != latestNumber && balance[_bet.player] != 0){
+
+      balance[_bet.player] -= _bet.value;
+      emit Results(_bet.player,latestNumber,"Sorry Try Again!");
+     }
+
+     else{
+
+      emit Results(_bet.player,latestNumber,"Sorry Try Again!");
+     }
+
+      delete (playing[_queryId]);
     }
 
-function update() public payable returns (bytes32){
+function update() public returns (bytes32){
 
       uint256 QUERY_EXECUTION_DELAY = 0;
       uint256 GAS_FOR_CALLBACK = 200000;
