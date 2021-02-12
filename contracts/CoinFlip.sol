@@ -130,7 +130,7 @@ function update() internal returns (bytes32){
         GAS_FOR_CALLBACK
         );
 
-    emit LogNewProvableQuery("Flip taking place, standing by for results...");
+    emit LogNewProvableQuery("Flip taking place, stand by for results...");
     return queryId;
 
     }
