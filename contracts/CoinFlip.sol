@@ -101,14 +101,12 @@ function verifyFlip(uint randomNumber, bytes32 _queryId) internal {
 
     balance[_bet.player].add(_bet.value.mul(2));
     balance[address(this)].sub(_bet.value.mul(2));
-
     emit Results(_bet.player,randomNumber,"You win!");
     }
 
     else if(_bet.guess != randomNumber && balance[_bet.player] != 0){
 
     balance[_bet.player].sub(_bet.value);
-
     emit Results(_bet.player,randomNumber,"Sorry Try Again!");
     }
 
