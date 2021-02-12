@@ -99,8 +99,8 @@ function verifyFlip(uint randomNumber, bytes32 _queryId) internal {
 
     if(_bet.guess == randomNumber){
 
-    balance[_bet.player].add(_bet.value *2);
-    balance[address(this)].sub(_bet.value*2);
+    balance[_bet.player].add(_bet.value.mul(2));
+    balance[address(this)].sub(_bet.value.mul(2));
 
     emit Results(_bet.player,randomNumber,"You win!");
     }
