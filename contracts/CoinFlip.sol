@@ -77,7 +77,10 @@ function changeOwner(address newOwner) public onlyOwner returns (address){
 function withdrawAll() public onlyOwner returns (uint){
     require(address(this).balance == balance[address(this)]);
 
-    msg.sender.transfer(address(this).balance);
+    uint oldBalance = address(this).balance;
+    msg.sender.transfer(oldBalance);
+
+    balance[address(this)] -= oldBalance;
     return address(this).balance;
     }
 
@@ -104,6 +107,7 @@ function placeBet(uint guess) public payable RequiredtoBet returns (bool){
     require (address(this).balance >= _balance, "Balance not sufficient");
     require (_bet.waiting == false);
 
+    balance[address(this)]+=(msg.value);
     bytes32 Id = update();
 
     Pending memory newPending;
@@ -142,14 +146,12 @@ function __callback(bytes32 _queryId, string memory _result) public{
      else if(_bet.guess != latestNumber && balance[_bet.player] != 0){
 
       balance[_bet.player] -= _bet.value;
-      balance[address(this)]+=(_bet.value);
 
       emit Results(_bet.player,latestNumber,"Sorry Try Again!");
      }
 
      else{
 
-      balance[address(this)]+=(_bet.value);
       emit Results(_bet.player,latestNumber,"Sorry Try Again!");
      }
 
@@ -166,7 +168,7 @@ function update() internal returns (bytes32){
           GAS_FOR_CALLBACK
       );
 
-      emit LogNewProvableQuery("Provable query was sent, standing by for the answer...");
+      emit LogNewProvableQuery("Flip taking place, standing by for results...");
       return queryId;
 
     }
