@@ -49,6 +49,7 @@ modifier RequiredtoBet {
 
 function Deposit() public payable onlyOwner returns (uint){
 
+    balance[address(this)] += msg.value;
     return address(this).balance;
     }
 
