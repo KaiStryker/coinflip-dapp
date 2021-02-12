@@ -53,7 +53,7 @@ modifier RequiredtoBet {
 
 function placeBet(uint guess) public payable RequiredtoBet returns (bool){
 
-    uint _balance = 2 * msg.value;
+    uint _balance = msg.value.mul(2);
     Bet memory _bet = players[msg.sender];
 
     require (address(this).balance >= _balance, "Balance not sufficient");
