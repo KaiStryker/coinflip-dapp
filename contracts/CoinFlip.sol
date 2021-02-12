@@ -32,7 +32,7 @@ struct Pending{
 constructor() public payable {
     require (msg.value == .1 ether, "deployment minimum not achieved");
     owner = msg.sender;
-    balance[address(this)];
+    balance[address(this)] += msg.value;
     }
 
 modifier onlyOwner {
