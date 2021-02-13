@@ -14,8 +14,75 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    /* Center the loader */
+    #loader {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      width: 120px;
+      height: 120px;
+      margin: -76px 0 0 -76px;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Add animation to "page content" */
+    .animate-bottom {
+      position: relative;
+      -webkit-animation-name: animatebottom;
+      -webkit-animation-duration: 1s;
+      animation-name: animatebottom;
+      animation-duration: 1s
+    }
+
+    @-webkit-keyframes animatebottom {
+      from { bottom:-100px; opacity:0 }
+      to { bottom:0px; opacity:1 }
+    }
+
+    @keyframes animatebottom {
+      from{ bottom:-100px; opacity:0 }
+      to{ bottom:0; opacity:1 }
+    }
+
+    #myDiv {
+      display: none;
+      text-align: center;
+    }
+    </style>
   </head>
   <body>
+
+  <div style = "display:none;" div id="loader"></div>
+
+  <div style="display:none;" id="Congrats" class="animate-bottom">
+  <h2>Congrats!</h2>
+  <p> <span id="get_output"></span> </p>
+  <button type="button" id="get_reward_button_2" class="btn btn-primary">Claim Reward</button>
+</div>
+
+<div style="display:none;" id="Sorry" class="animate-bottom">
+<h2>Sorry!</h2>
+<p> <span id="get_output"></span> </p>
+<button type="button" id="return_to_main" class="btn btn-primary">Try Again</button>
+</div>
+
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
         <h1 class="display-4">Coin Flip</h1>
@@ -44,7 +111,7 @@
         </div>
       </div>
       <br>
-      <button type="button" id="get_reward_button" class="btn btn-primary">Claim</button>
+      <button type="button" id="get_reward_button" class="btn btn-primary">Claim Reward</button>
     </div>
 
     </div>

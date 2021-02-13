@@ -4,7 +4,7 @@ var _player;
 
 $(document).ready(function() {
     window.ethereum.enable().then(function(accounts){
-      contractInstance = new web3.eth.Contract(abi, "0x3C1d826fB39a6860fAec31FD3D85415a2C1fc006", {from:accounts[0],gas:500000,gasPrice:20000000000});
+      contractInstance = new web3.eth.Contract(abi, "0x985C04AEd2aC00Aa0204851fC3183F0aa53078A3", {from:accounts[0],gas:500000,gasPrice:20000000000});
       console.log(contractInstance);
     });
 
@@ -50,7 +50,7 @@ contractInstance.once('Results',
 },(error, _events) => {
   if (error) throw("Error fetching events");
   console.log(_events); }).then(function(_events){
-  var __results = _events.events.Results.returnValues['_results'];}.then( __results => {
+  var __results = _events.events.Results.returnValues['_results']}.then( __results => {
     showResults(__results);
   }));
 
