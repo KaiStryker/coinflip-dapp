@@ -43,9 +43,9 @@ function _Bet(){
 }
 
 // Event Listeners
-
+async function ListeningForEvents(){
 contractInstance.once('Results',
-{ filter:{player: _player},
+{ filter:{player: await _player},
   fromBlock:'latest'
 },(error, _events) => {
   if (error) throw("Error fetching events");
@@ -55,13 +55,13 @@ contractInstance.once('Results',
   }));
 
 contractInstance.once('LogNewProvableQuery',
-{ filter:{player: _player},
+{ filter:{player: await _player},
   fromBlock:'latest'
 },(error, _events) => {
   if (error) throw("Error fetching events");
     showLoader(_events);
   });
-
+}
 // Functions
 
 function claimReward(){
