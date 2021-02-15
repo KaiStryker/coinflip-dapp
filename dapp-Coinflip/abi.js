@@ -35,6 +35,12 @@ var abi = [
     "inputs": [
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "player",
+        "type": "address"
+      },
+      {
+        "indexed": false,
         "internalType": "string",
         "name": "description",
         "type": "string"
@@ -67,6 +73,28 @@ var abi = [
     ],
     "name": "Results",
     "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      }
+    ],
+    "name": "UnclaimedGoods",
+    "type": "event"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "callitQuits",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "constant": true,
@@ -109,13 +137,18 @@ var abi = [
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "_myid",
+        "name": "_queryId",
         "type": "bytes32"
       },
       {
         "internalType": "string",
         "name": "_result",
         "type": "string"
+      },
+      {
+        "internalType": "bytes",
+        "name": "_proof",
+        "type": "bytes"
       }
     ],
     "name": "__callback",
@@ -129,18 +162,13 @@ var abi = [
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "_queryId",
+        "name": "_myid",
         "type": "bytes32"
       },
       {
         "internalType": "string",
         "name": "_result",
         "type": "string"
-      },
-      {
-        "internalType": "bytes",
-        "name": "_proof",
-        "type": "bytes"
       }
     ],
     "name": "__callback",
@@ -168,13 +196,7 @@ var abi = [
     "constant": false,
     "inputs": [],
     "name": "withdrawAll",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
@@ -252,6 +274,21 @@ var abi = [
     ],
     "payable": false,
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "checkUnclaimedFunds",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
     "type": "function"
   }
 ]
