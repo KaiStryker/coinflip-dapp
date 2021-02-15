@@ -1,6 +1,5 @@
-CoinFlip
-
 Simple coinflip game that uses an oracle to achieve randomness.
+*HTML is very basic for now*
 
 Instructions
 
