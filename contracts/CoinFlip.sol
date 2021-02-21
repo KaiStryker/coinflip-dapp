@@ -110,18 +110,19 @@ function verifyFlip(uint256 randomNumber, bytes32 _queryId) internal {
       unclaimedFunds += players[_better].betAmount.mul(2);
       emit Results(_better,randomNumber,"You win!");
 
-      delete (playing[_queryId]);
       players[_better].betAmount = 0;
       players[_better].waiting = false;
+
+      delete (playing[_queryId]);
 
       }
       else {
 
+      players[_better].betAmount = 0;
+      players[_better].waiting = false;
       emit Results(_better,randomNumber,"Sorry Try Again!");
 
       delete (playing[_queryId]);
-      players[_better].betAmount = 0;
-      players[_better].waiting = false;
       }
     }
 
@@ -165,9 +166,9 @@ function withdrawRewards() public {
       require(players[msg.sender]._balance > 0, "No available funds");
 
       uint _balance_ = players[msg.sender]._balance;
-      msg.sender.transfer(_balance_);
       unclaimedFunds -= players[msg.sender]._balance;
-      delete (players[msg.sender]);
+      delete(players[msg.sender]);
+      msg.sender.transfer(_balance_);
 
       emit DepositSent(address(this),msg.sender, _balance_);
     }
